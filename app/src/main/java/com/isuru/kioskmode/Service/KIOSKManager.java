@@ -26,19 +26,23 @@ public class KIOSKManager {
      * @param enabled true/false
      */
     public void enableKioskMode(boolean enabled) {
-        try {
-            if (enabled) {
-                if (devicePolicyManager.isLockTaskPermitted(activity.getPackageName())) {
-                    activity.startLockTask();
-                } else {
-                    Logger.d("Kiosk Mode Error " + "Not permitted");
-                }
-            } else {
-                activity.stopLockTask();
-            }
-        } catch (Exception e) {
-            Logger.e("Kiosk Mode Error" + e.getMessage());
-        }
+//        try {
+//            if (enabled) {
+//                if (devicePolicyManager.isLockTaskPermitted(activity.getPackageName())) {
+//                    activity.startLockTask();
+//                } else {
+//                    Logger.d("Kiosk Mode Error " + "Not permitted");
+//                    System.out.println("Kiosk Mode Error + Not permitted");
+//                }
+//            } else {
+//                activity.stopLockTask();
+//            }
+//        } catch (Exception e) {
+//            Logger.e("Kiosk Mode Error" + e.getMessage());
+//            System.out.println("Kiosk Mode Error" + e.getMessage());
+//        }
+
+
     }
 
 }

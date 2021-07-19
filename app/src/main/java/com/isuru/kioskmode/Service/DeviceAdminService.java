@@ -37,10 +37,12 @@ public class DeviceAdminService extends DeviceAdminReceiver {
     @Override
     public void onLockTaskModeEntering(Context context, Intent intent, String pkg) {
         showLog("KIOSK mode enabled");
+        System.out.println("KIOSK mode enabled");
     }
 
     @Override
     public void onLockTaskModeExiting(Context context, Intent intent) {
         showLog("KIOSK mode disabled");
+        System.out.println("KIOSK mode disabled");
     }
 }
