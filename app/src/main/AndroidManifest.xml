@@ -22,17 +22,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:testOnly="true"
-
         android:permission="android.permission.MANAGE_DEVICE_ADMINS"
         android:theme="@style/AppTheme">
+<!--        android:theme="@style/AppTheme">-->
         <activity android:name=".MainActivity"
             android:launchMode="singleTask"
             android:permission="android.permission.MANAGE_DEVICE_ADMINS">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-<!--                <category android:name="android.intent.category.HOME"/>-->
-<!--                <category android:name="android.intent.category.DEFAULT"/>-->
+                <category android:name="android.intent.category.HOME"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 

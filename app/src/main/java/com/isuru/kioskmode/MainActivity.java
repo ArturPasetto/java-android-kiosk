@@ -14,6 +14,7 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
@@ -40,16 +41,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
 
-        Button btnActivate = findViewById(R.id.btnActivate);
-        Button btnDeactivate = findViewById(R.id.btnDeactivate);
+//        Button btnActivate = findViewById(R.id.btnActivate);
+//        Button btnDeactivate = findViewById(R.id.btnDeactivate);
+//        btnActivate.setOnClickListener(this);
+//        btnDeactivate.setOnClickListener(this);
 
-        btnActivate.setOnClickListener(this);
-        btnDeactivate.setOnClickListener(this);
-
-
-        initLogger();
+//        initLogger();
         initDeviceAdmin();
 
     }
@@ -57,73 +60,73 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * configuration for logger
      */
-    private void initLogger() {
-        FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
-                .tag("KIOSKDemo")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
-                .build();
+//    private void initLogger() {
+//        FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
+//                .tag("KIOSKDemo")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
+//                .build();
+//
+//        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
+//            @Override
+//            public boolean isLoggable(int priority, String tag) {
+//                return BuildConfig.DEBUG;
+//            }
+//        });
+//    }
 
-        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
-            @Override
-            public boolean isLoggable(int priority, String tag) {
-                return BuildConfig.DEBUG;
-            }
-        });
-    }
-
-    private void setDefaultCosuPolicies(boolean active){
-
-        // Set user restrictions
-        setUserRestriction(UserManager.DISALLOW_SAFE_BOOT, active);
-        setUserRestriction(UserManager.DISALLOW_FACTORY_RESET, active);
-        setUserRestriction(UserManager.DISALLOW_ADD_USER, active);
-        setUserRestriction(UserManager.DISALLOW_MOUNT_PHYSICAL_MEDIA, active);
-        setUserRestriction(UserManager.DISALLOW_ADJUST_VOLUME, active);
-
-        // Disable keyguard and status bar
-        devicePolicyManager.setKeyguardDisabled(adminCompName, active);
-        devicePolicyManager.setStatusBarDisabled(adminCompName, active);
-
-        // Enable STAY_ON_WHILE_PLUGGED_IN
-        enableStayOnWhilePluggedIn(active);
-
-        // Set system update policy
-        if (active){
-            devicePolicyManager.setSystemUpdatePolicy(adminCompName, SystemUpdatePolicy.createWindowedInstallPolicy(60, 120));
-        } else {
-            devicePolicyManager.setSystemUpdatePolicy(adminCompName,null);
-        }
-
-        // set this Activity as a lock task package
-        devicePolicyManager.setLockTaskPackages(adminCompName,active ? new String[]{getPackageName()} : new String[]{});
-
-        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_MAIN);
-        intentFilter.addCategory(Intent.CATEGORY_HOME);
-        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
-
-        if (active) {
-            // set Cosu activity as home intent receiver so that it is started
-            // on reboot
-            devicePolicyManager.addPersistentPreferredActivity(adminCompName, intentFilter, new ComponentName(getPackageName(), MainActivity.class.getName()));
-        } else {
-            devicePolicyManager.clearPackagePersistentPreferredActivities(adminCompName, getPackageName());
-        }
-    }
-
-    private void setUserRestriction(String restriction, boolean disallow){
-        if (disallow) {
-            devicePolicyManager.addUserRestriction(adminCompName,restriction);
-        } else {
-            devicePolicyManager.clearUserRestriction(adminCompName,restriction);
-        }
-    }
-
-    private void enableStayOnWhilePluggedIn(boolean enabled){
-        if (enabled) {
-            devicePolicyManager.setGlobalSetting(adminCompName, Settings.Global.STAY_ON_WHILE_PLUGGED_IN,Integer.toString(BatteryManager.BATTERY_PLUGGED_AC| BatteryManager.BATTERY_PLUGGED_USB| BatteryManager.BATTERY_PLUGGED_WIRELESS));
-        } else {
-            devicePolicyManager.setGlobalSetting(adminCompName,Settings.Global.STAY_ON_WHILE_PLUGGED_IN,"0");
-        }
-    }
+//    private void setDefaultCosuPolicies(boolean active){
+//
+//        // Set user restrictions
+//        setUserRestriction(UserManager.DISALLOW_SAFE_BOOT, active);
+//        setUserRestriction(UserManager.DISALLOW_FACTORY_RESET, active);
+//        setUserRestriction(UserManager.DISALLOW_ADD_USER, active);
+//        setUserRestriction(UserManager.DISALLOW_MOUNT_PHYSICAL_MEDIA, active);
+//        setUserRestriction(UserManager.DISALLOW_ADJUST_VOLUME, active);
+//
+//        // Disable keyguard and status bar
+//        devicePolicyManager.setKeyguardDisabled(adminCompName, active);
+//        devicePolicyManager.setStatusBarDisabled(adminCompName, active);
+//
+//        // Enable STAY_ON_WHILE_PLUGGED_IN
+//        enableStayOnWhilePluggedIn(active);
+//
+//        // Set system update policy
+//        if (active){
+//            devicePolicyManager.setSystemUpdatePolicy(adminCompName, SystemUpdatePolicy.createWindowedInstallPolicy(60, 120));
+//        } else {
+//            devicePolicyManager.setSystemUpdatePolicy(adminCompName,null);
+//        }
+//
+//        // set this Activity as a lock task package
+//        devicePolicyManager.setLockTaskPackages(adminCompName,active ? new String[]{getPackageName()} : new String[]{});
+//
+//        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_MAIN);
+//        intentFilter.addCategory(Intent.CATEGORY_HOME);
+//        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+//
+//        if (active) {
+//            // set Cosu activity as home intent receiver so that it is started
+//            // on reboot
+//            devicePolicyManager.addPersistentPreferredActivity(adminCompName, intentFilter, new ComponentName(getPackageName(), MainActivity.class.getName()));
+//        } else {
+//            devicePolicyManager.clearPackagePersistentPreferredActivities(adminCompName, getPackageName());
+//        }
+//    }
+//
+//    private void setUserRestriction(String restriction, boolean disallow){
+//        if (disallow) {
+//            devicePolicyManager.addUserRestriction(adminCompName,restriction);
+//        } else {
+//            devicePolicyManager.clearUserRestriction(adminCompName,restriction);
+//        }
+//    }
+//
+//    private void enableStayOnWhilePluggedIn(boolean enabled){
+//        if (enabled) {
+//            devicePolicyManager.setGlobalSetting(adminCompName, Settings.Global.STAY_ON_WHILE_PLUGGED_IN,Integer.toString(BatteryManager.BATTERY_PLUGGED_AC| BatteryManager.BATTERY_PLUGGED_USB| BatteryManager.BATTERY_PLUGGED_WIRELESS));
+//        } else {
+//            devicePolicyManager.setGlobalSetting(adminCompName,Settings.Global.STAY_ON_WHILE_PLUGGED_IN,"0");
+//        }
+//    }
 
     /**
      * Activates KIOSK mode by calling enableKioskMode() of KIOSKManager class
@@ -138,17 +141,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            KIOSKManager km = new KIOSKManager(this);
 //            km.enableKioskMode(status);
 
-
-            devicePolicyManager.setKeyguardDisabled(adminCompName, status);
-            devicePolicyManager.setStatusBarDisabled(adminCompName, status);
-
-
             if(status){
                 this.startLockTask();
             }
             else{
                 this.stopLockTask();
             }
+
+            devicePolicyManager.setKeyguardDisabled(adminCompName, status);
+            devicePolicyManager.setStatusBarDisabled(adminCompName, status);
 
         }
     }
@@ -178,29 +179,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         System.out.println("dpm is owner = " + devicePolicyManager.isDeviceOwnerApp(getPackageName()));
         System.out.println("dpm is admin = " + devicePolicyManager.isAdminActive(adminCompName));
 
-//        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-//        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminCompName);
-//        startActivityForResult(intent, 0);
-
-
-
-        /*if(devicePolicyManager.isAdminActive(adminCompName)){
-            devicePolicyManager.wipeData(DevicePolicyManager.WIPE_RESET_PROTECTION_DATA);
-        }*/
-
         if (devicePolicyManager.isDeviceOwnerApp(getPackageName())) {
             devicePolicyManager.setLockTaskPackages(adminCompName, new String[]{getPackageName()});
+        }
+
+
+        if(devicePolicyManager.isAdminActive(adminCompName)) {
+            this.startLockTask();
+            devicePolicyManager.setKeyguardDisabled(adminCompName, true);
+            devicePolicyManager.setStatusBarDisabled(adminCompName, true);
         }
 
     }
 
     @Override
     public void onClick(View v) {
-
-        switch (v.getId()){
-            case R.id.btnActivate: { activateKIOSK(true); break;}
-            case R.id.btnDeactivate: { activateKIOSK(false); break;}
-        }
+//
+//        switch (v.getId()){
+//            case R.id.btnActivate: { activateKIOSK(true); break;}
+//            case R.id.btnDeactivate: { activateKIOSK(false); break;}
+//        }
     }
 
     /**
@@ -211,7 +209,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
-
 
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
